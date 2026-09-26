@@ -2,7 +2,7 @@ spring:
   application:
     name: pedacinho-do-ceu-api
   config:
-    import: file:.env[.properties]
+    import: optional:file:.env[.properties]
 
   datasource:
     url: ${SUPABASE_URL}
