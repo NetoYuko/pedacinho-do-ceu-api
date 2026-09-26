@@ -2,13 +2,12 @@ package com.backend.pedacinho_do_ceu_api.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "usuarios")
-public class Usuario {
+@Table(name = "tutores")
+public class Tutor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -18,14 +17,11 @@ public class Usuario {
     private String nome;
 
     @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(name = "senha_hash", nullable = false)
-    private String senhaHash;
+    private String cpf;
 
     @Column(nullable = false)
-    private String perfil;
+    private String telefone;
 
-    public Usuario() {
-    }
+    @Column(nullable = false)
+    private String endereco;
 }

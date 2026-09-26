@@ -25,7 +25,7 @@ public class Animal {
     private Integer idadeMeses;
 
     @Column(nullable = false)
-    private String status; // "DISPONIVEL", "EM_ADOCAO", "ADOTADO"
+    private String status;
 
     @Column(name = "foto_url")
     private String fotoUrl;
