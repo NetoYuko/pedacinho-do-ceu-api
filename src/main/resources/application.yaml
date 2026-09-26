@@ -2,16 +2,16 @@ spring:
   application:
     name: pedacinho-do-ceu-api
   config:
-    import: optional:file:.env[.properties]
+    import: file:.env[.properties]
 
-    datasource:
-      url: ${SUPABASE_URL}
-      username: ${SUPABASE_USER}
-      password: ${SUPABASE_PASSWORD}
-      driver-class-name: org.postgresql.Driver
+  datasource:
+    url: ${SUPABASE_URL}
+    username: ${SUPABASE_USER}
+    password: ${SUPABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 
-    jpa:
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
-      show-sql: true
-      hibernate:
-        ddl-auto: update
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
