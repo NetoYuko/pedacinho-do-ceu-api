@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,5 +37,25 @@ public class AnimalService {
         return repository.findAll().stream()
                 .map(AnimalResponseDTO::new)
                 .collect(Collectors.toList());
+    }
+    @Transactional
+    public AnimalResponseDTO atualizar(UUID id, AnimalRequestDTO dto) {
+        Animal animal = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Animal não encontrado"));
+
+        animal.setNome(dto.nome());
+        animal.setEspecie(dto.especie());
+        animal.setIdadeMeses(dto.idadeMeses());
+        animal.setStatus(dto.status());
+
+        Animal animalAtualizado = repository.save(animal);
+        return new AnimalResponseDTO(animalAtualizado);
+    }
+
+    @Transactional
+    public void excluir(UUID id) {
+        Animal animal = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Animal não encontrado"));
+        repository.delete(animal);
     }
 }

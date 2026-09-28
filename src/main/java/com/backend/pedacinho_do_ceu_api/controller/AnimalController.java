@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/animais")
@@ -41,5 +42,26 @@ public class AnimalController {
     @GetMapping
     public ResponseEntity<List<AnimalResponseDTO>> listar() {
         return ResponseEntity.ok(service.listarTodos());
+    }
+
+    @Operation(summary = "Atualizar Animal", description = "Atualiza os dados cadastrais de um animal existente.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Animal atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Animal não encontrado", content = @Content)
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<AnimalResponseDTO> atualizar(@PathVariable UUID id, @RequestBody @Valid AnimalRequestDTO dto) {
+        return ResponseEntity.ok(service.atualizar(id, dto));
+    }
+
+    @Operation(summary = "Excluir Animal", description = "Remove permanentemente um animal do sistema.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Animal excluído com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Animal não encontrado", content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable UUID id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }
