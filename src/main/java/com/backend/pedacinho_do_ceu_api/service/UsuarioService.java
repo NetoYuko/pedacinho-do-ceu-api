@@ -50,7 +50,6 @@ public class UsuarioService {
         Usuario usuario = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        // Se o email foi enviado e é diferente do atual, verifica se já existe no banco
         if (dto.email() != null && !dto.email().isBlank() && !dto.email().equals(usuario.getEmail())) {
             if (repository.findByEmail(dto.email()).isPresent()) {
                 throw new RuntimeException("Este e-mail já está sendo utilizado por outro usuário.");
@@ -74,14 +73,10 @@ public class UsuarioService {
         Usuario usuario = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        // Temporário: validação de senha em texto puro.
-        // Na próxima etapa de JWT, trocaremos por passwordEncoder.matches()
         if (!usuario.getSenhaHash().equals(dto.senhaAtual())) {
             throw new RuntimeException("A senha atual informada está incorreta.");
         }
 
-        // Temporário: salvando em texto puro.
-        // Na próxima etapa, aplicaremos passwordEncoder.encode(dto.novaSenha())
         usuario.setSenhaHash(dto.novaSenha());
         repository.save(usuario);
     }
