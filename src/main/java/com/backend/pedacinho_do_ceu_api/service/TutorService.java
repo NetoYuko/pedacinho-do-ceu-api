@@ -48,7 +48,6 @@ public class TutorService {
         Tutor tutor = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Tutor não encontrado."));
 
-        // Se o CPF enviado for diferente do atual, verifica se já pertence a outro tutor
         if (!tutor.getCpf().equals(dto.cpf()) && repository.findByCpf(dto.cpf()).isPresent()) {
             throw new RuntimeException("O novo CPF informado já pertence a outro tutor.");
         }
