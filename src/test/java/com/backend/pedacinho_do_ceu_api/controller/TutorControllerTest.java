@@ -28,15 +28,13 @@ class TutorControllerTest {
     @Test
     @DisplayName("Deve cadastrar um tutor com sucesso e retornar HTTP 201")
     void deveCadastrarTutor() throws Exception {
-        // PREPARAÇÃO: Criamos o payload fictício simulando os dados enviados pelo front-end
         TutorRequestDTO dto = new TutorRequestDTO("Maria da Silva", "111.222.333-44", "(82) 99999-9999", "Rua do Sol, 123");
 
-        // AÇÃO E VALIDAÇÃO: Dispara a requisição simulada e confere se a API processa corretamente
         mockMvc.perform(post("/api/tutores")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isCreated()) // Espera receber HTTP 201 Created
-                .andExpect(jsonPath("$.id").exists()) // Garante que o banco H2 gerou e retornou um UUID
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.nome").value("Maria da Silva"))
                 .andExpect(jsonPath("$.cpf").value("111.222.333-44"));
     }
