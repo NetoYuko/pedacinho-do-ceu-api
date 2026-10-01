@@ -30,7 +30,8 @@ public class AnimalController {
     @Operation(summary = "Cadastrar Animal", description = "Cadastra um novo animal no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Animal cadastrado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Erro de validação nos dados enviados", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Erro de validação nos dados enviados", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso negado (Usuário sem permissão)", content = @Content)
     })
     @PostMapping
     public ResponseEntity<AnimalResponseDTO> cadastrar(@RequestBody @Valid AnimalRequestDTO dto) {
@@ -38,7 +39,11 @@ public class AnimalController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @Operation(summary = "Listar Animais", description = "Retorna a listagem de todos os animais.")
+    @Operation(summary = "Listar Animais", description = "Retorna a listagem de todos os animais. Acessível a Visualizadores e Admins.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listagem retornada com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Acesso negado (Token inválido)", content = @Content)
+    })
     @GetMapping
     public ResponseEntity<List<AnimalResponseDTO>> listar() {
         return ResponseEntity.ok(service.listarTodos());
@@ -47,6 +52,8 @@ public class AnimalController {
     @Operation(summary = "Atualizar Animal", description = "Atualiza os dados cadastrais de um animal existente.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Animal atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro de validação nos dados enviados", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso negado (Usuário sem permissão)", content = @Content),
             @ApiResponse(responseCode = "404", description = "Animal não encontrado", content = @Content)
     })
     @PutMapping("/{id}")
@@ -57,6 +64,7 @@ public class AnimalController {
     @Operation(summary = "Excluir Animal", description = "Remove permanentemente um animal do sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Animal excluído com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Acesso negado (Usuário sem permissão)", content = @Content),
             @ApiResponse(responseCode = "404", description = "Animal não encontrado", content = @Content)
     })
     @DeleteMapping("/{id}")

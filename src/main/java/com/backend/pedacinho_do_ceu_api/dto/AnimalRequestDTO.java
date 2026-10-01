@@ -4,12 +4,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@Schema(description = "Objeto de requisição para cadastro e atualização de um animal")
 public record AnimalRequestDTO(
         @Schema(description = "Nome do animal", example = "Caramelo")
         @NotBlank(message = "O nome é obrigatório")
         String nome,
 
-        @Schema(description = "Espécie do animal", example = "CACHORRO")
+        @Schema(description = "Espécie do animal (ex: CACHORRO, GATO", example = "CACHORRO")
         @NotBlank(message = "A espécie é obrigatória")
         String especie,
 

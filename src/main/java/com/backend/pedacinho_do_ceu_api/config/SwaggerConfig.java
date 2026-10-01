@@ -1,4 +1,4 @@
-package com.pedacinhodoceu.api.config;
+package com.backend.pedacinho_do_ceu_api.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
