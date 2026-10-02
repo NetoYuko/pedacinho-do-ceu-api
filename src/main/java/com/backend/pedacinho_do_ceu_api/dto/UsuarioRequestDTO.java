@@ -4,8 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+@Schema(description = "Objeto de requisição para cadastro de um novo usuário no sistema")
 public record UsuarioRequestDTO(
-        @Schema(description = "Nome do usuário", example = "Ana Voluntária")
+        @Schema(description = "Nome completo do usuário", example = "Ana Silva dos Santos")
         @NotBlank(message = "O nome é obrigatório")
         String nome,
 
@@ -18,7 +19,7 @@ public record UsuarioRequestDTO(
         @NotBlank(message = "A senha é obrigatória")
         String senha,
 
-        @Schema(description = "Perfil de acesso", example = "VISUALIZADOR")
+        @Schema(description = "Perfil de acesso (VISUALIZADOR ou ADMIN)", example = "VISUALIZADOR")
         @NotBlank(message = "O perfil é obrigatório")
         String perfil
 ) {}

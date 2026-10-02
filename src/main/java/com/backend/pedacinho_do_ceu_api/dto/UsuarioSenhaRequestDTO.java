@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+@Schema(description = "Objeto de requisição exclusivo para alteração de senha")
 public record UsuarioSenhaRequestDTO(
         @Schema(description = "Senha atual para validação de segurança", example = "SenhaSegura123")
         @NotBlank(message = "A senha atual é obrigatória")
