@@ -17,9 +17,9 @@ public class SwaggerConfig {
 
         return new OpenAPI()
                 .info(new Info()
-                        .title("API Sistema Pedacinho do Céu")
+                        .title("API Gestão ONG Animais")
                         .version("1.0.0")
-                        .description("API REST para gestão da ONG."))
+                        .description("API REST para gestão de animais, tutores, medicamentos, adoções e usuários."))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(
                         new Components()
