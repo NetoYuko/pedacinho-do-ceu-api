@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/animais")
-@Tag(name = "Animais", description = "Endpoints para gestão do catálogo de animais da ONG")
+@Tag(name = "Animais", description = "Endpoint para gestão do catálogo de animais da ONG")
 public class AnimalController {
 
     private final AnimalService service;
