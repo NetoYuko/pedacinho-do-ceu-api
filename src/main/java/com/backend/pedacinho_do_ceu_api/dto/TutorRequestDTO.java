@@ -3,6 +3,7 @@ package com.backend.pedacinho_do_ceu_api.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
+@Schema(description = "Objeto de requisição para cadastro e atualização de um tutor")
 public record TutorRequestDTO(
         @Schema(description = "Nome completo do tutor", example = "João da Silva")
         @NotBlank(message = "O nome é obrigatório")
