@@ -1,5 +1,6 @@
 package com.backend.pedacinho_do_ceu_api.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.backend.pedacinho_do_ceu_api.dto.UsuarioAtualizarRequestDTO;
 import com.backend.pedacinho_do_ceu_api.dto.UsuarioRequestDTO;
 import com.backend.pedacinho_do_ceu_api.dto.UsuarioResponseDTO;
@@ -17,9 +18,11 @@ import java.util.stream.Collectors;
 public class UsuarioService {
 
     private final UsuarioRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository repository) {
+    public UsuarioService(UsuarioRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -32,7 +35,7 @@ public class UsuarioService {
         usuario.setNome(dto.nome());
         usuario.setEmail(dto.email());
         usuario.setPerfil(dto.perfil());
-        usuario.setSenhaHash(dto.senha());
+        usuario.setSenhaHash(passwordEncoder.encode(dto.senha()));
 
         Usuario salvo = repository.save(usuario);
         return new UsuarioResponseDTO(salvo);
@@ -73,11 +76,11 @@ public class UsuarioService {
         Usuario usuario = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        if (!usuario.getSenhaHash().equals(dto.senhaAtual())) {
+        if (!passwordEncoder.matches(dto.senhaAtual(), usuario.getSenhaHash())) {
             throw new RuntimeException("A senha atual informada está incorreta.");
         }
 
-        usuario.setSenhaHash(dto.novaSenha());
+        usuario.setSenhaHash(passwordEncoder.encode(dto.novaSenha()));
         repository.save(usuario);
     }
 
