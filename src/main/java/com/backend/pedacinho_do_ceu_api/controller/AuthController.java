@@ -28,7 +28,7 @@ public class AuthController {
         this.tokenService = tokenService;
     }
 
-    @Operation(summary = "Realizar Login", description = "Valida o e-mail e senha do usuário. Em caso de sucesso, devolve um token JWT com 2 horas de validade para ser utilizado no cabeçalho das próximas requisições.")
+    @Operation(summary = "Realizar Login", description = "Valida o e-mail e senha do usuário. Em caso de sucesso, devolve um token JWT com 2 horas de validade para ser utilizado nas próximas requisições.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Login efetuado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Erro de validação (e-mail ou senha em branco/inválidos)", content = @Content),
