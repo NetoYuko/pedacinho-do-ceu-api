@@ -16,7 +16,7 @@ spring:
     hibernate:
       ddl-auto: update
 
-  api:
-    security:
-      token:
-        secret: ${JWT_KEY}
+api:
+  security:
+    token:
+      secret: ${JWT_KEY}
