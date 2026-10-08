@@ -26,7 +26,7 @@ class AnimalControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    @DisplayName("Deve cadastrar um animal com sucesso e retornar HTTP 201")
+    @DisplayName("Deve cadastrar um animal com sucesso")
     @WithMockUser(roles = "ADMIN")
     void deveCadastrarAnimal() throws Exception {
         AnimalRequestDTO dto = new AnimalRequestDTO("Bolinha", "GATO", 12, "DISPONIVEL");
@@ -40,7 +40,7 @@ class AnimalControllerTest {
     }
 
     @Test
-    @DisplayName("Deve listar animais com sucesso e retornar HTTP 200")
+    @DisplayName("Deve listar animais com sucesso")
     @WithMockUser(roles = "USER")
     void deveListarAnimais() throws Exception {
         mockMvc.perform(get("/api/animais"))
@@ -71,7 +71,7 @@ class AnimalControllerTest {
     }
 
     @Test
-    @DisplayName("Deve excluir um animal com sucesso (Permissão ADMIN)")
+    @DisplayName("Deve excluir um animal com sucesso")
     @WithMockUser(roles = "ADMIN")
     void deveExcluirAnimal() throws Exception {
         AnimalRequestDTO criacaoDto = new AnimalRequestDTO("Thor", "CACHORRO", 24, "DISPONIVEL");
