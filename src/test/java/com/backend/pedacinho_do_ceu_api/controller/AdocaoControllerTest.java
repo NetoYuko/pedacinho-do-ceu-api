@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,6 +32,7 @@ class AdocaoControllerTest {
 
     @Test
     @DisplayName("Deve aprovar uma adoção e atualizar o status do animal para ADOTADO automaticamente")
+    @WithMockUser(roles = {"ADMIN", "USER"})
     void deveRegistrarAprovacaoEAtualizarAnimal() throws Exception {
         AnimalRequestDTO animalDto = new AnimalRequestDTO("Bolinha", "GATO", 5, "DISPONIVEL");
         String animalResponse = mockMvc.perform(post("/api/animais")
@@ -60,5 +61,14 @@ class AdocaoControllerTest {
         mockMvc.perform(get("/api/animais"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[?(@.id == '" + animalIdStr + "')].status").value("ADOTADO"));
+    }
+
+    @Test
+    @DisplayName("Deve listar o histórico de processos de um animal com sucesso")
+    @WithMockUser(roles = "USER")
+    void deveListarHistoricoDeAdocoes() throws Exception {
+        mockMvc.perform(get("/api/adocoes/animal/" + UUID.randomUUID()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
     }
 }
