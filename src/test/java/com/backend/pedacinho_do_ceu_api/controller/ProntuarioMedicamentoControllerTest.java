@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,6 +32,7 @@ class ProntuarioMedicamentoControllerTest {
 
     @Test
     @DisplayName("Deve registrar um medicamento para um animal existente com sucesso")
+    @WithMockUser(roles = "ADMIN")
     void deveRegistrarMedicamento() throws Exception {
         AnimalRequestDTO animalDto = new AnimalRequestDTO("Rex", "CACHORRO", 24, "DISPONIVEL");
         String animalResponse = mockMvc.perform(post("/api/animais")
@@ -58,5 +59,14 @@ class ProntuarioMedicamentoControllerTest {
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.animalId").value(animalIdStr))
                 .andExpect(jsonPath("$.nomeMedicamento").value("Bravecto"));
+    }
+
+    @Test
+    @DisplayName("Deve consultar o histórico do animal com sucesso")
+    @WithMockUser(roles = "USER")
+    void deveListarHistorico() throws Exception {
+        mockMvc.perform(get("/api/prontuarios/animal/" + UUID.randomUUID()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
     }
 }
