@@ -1,4 +1,4 @@
-# Sistema Gestão ONG de animais - Backend API
+# Sistema de Gestão ONG de animais - API
 
 API REST desenvolvida para a **ONG Pedacinho do Céu**, um sistema de gestão focado em descentralizar informações e apoiar as operações de uma ONG de proteção animal. O objetivo é facilitar o acesso a informações para todos os voluntários que fazem parte da ONG.
 
