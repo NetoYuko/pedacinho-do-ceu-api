@@ -26,6 +26,7 @@ public class TokenService {
             return JWT.create()
                     .withIssuer("pedacinho-do-ceu-api")
                     .withSubject(usuario.getEmail())
+                    .withClaim("perfil", usuario.getPerfil())
                     .withExpiresAt(gerarDataExpiracao())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
