@@ -34,7 +34,7 @@ class ProntuarioMedicamentoControllerTest {
     @DisplayName("Deve registrar um medicamento para um animal existente com sucesso")
     @WithMockUser(roles = "ADMIN")
     void deveRegistrarMedicamento() throws Exception {
-        AnimalRequestDTO animalDto = new AnimalRequestDTO("Rex", "CACHORRO", 24, "DISPONIVEL");
+        AnimalRequestDTO animalDto = new AnimalRequestDTO("Bolinha", "GATO", 12, "DISPONIVEL", "https://fakeurl.com/foto-teste.jpg");
         String animalResponse = mockMvc.perform(post("/api/animais")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(animalDto)))

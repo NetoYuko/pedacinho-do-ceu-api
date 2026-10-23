@@ -29,7 +29,8 @@ class AnimalControllerTest {
     @DisplayName("Deve cadastrar um animal com sucesso")
     @WithMockUser(roles = "ADMIN")
     void deveCadastrarAnimal() throws Exception {
-        AnimalRequestDTO dto = new AnimalRequestDTO("Bolinha", "GATO", 12, "DISPONIVEL");
+        // Exemplo com uma URL fictícia para validar a tipagem:
+        AnimalRequestDTO dto = new AnimalRequestDTO("Bolinha", "GATO", 12, "DISPONIVEL", "https://fakeurl.com/foto-teste.jpg");
 
         mockMvc.perform(post("/api/animais")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -52,7 +53,7 @@ class AnimalControllerTest {
     @DisplayName("Deve atualizar um animal com sucesso")
     @WithMockUser(roles = "ADMIN")
     void deveAtualizarAnimal() throws Exception {
-        AnimalRequestDTO criacaoDto = new AnimalRequestDTO("Rex", "CACHORRO", 5, "DISPONIVEL");
+        AnimalRequestDTO criacaoDto = new AnimalRequestDTO("Bolinha", "GATO", 5, "DISPONIVEL", null);
         String responseJson = mockMvc.perform(post("/api/animais")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(criacaoDto)))
@@ -60,13 +61,13 @@ class AnimalControllerTest {
 
         String idGerado = objectMapper.readTree(responseJson).get("id").asText();
 
-        AnimalRequestDTO atualizacaoDto = new AnimalRequestDTO("Rex Editado", "CACHORRO", 6, "DISPONIVEL");
+        AnimalRequestDTO atualizacaoDto = new AnimalRequestDTO("Bolinha editado", "GATO", 6, "DISPONIVEL", null);
 
         mockMvc.perform(put("/api/animais/" + idGerado)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(atualizacaoDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nome").value("Rex Editado"))
+                .andExpect(jsonPath("$.nome").value("Bolinha editado"))
                 .andExpect(jsonPath("$.idadeMeses").value(6));
     }
 
@@ -74,7 +75,7 @@ class AnimalControllerTest {
     @DisplayName("Deve excluir um animal com sucesso")
     @WithMockUser(roles = "ADMIN")
     void deveExcluirAnimal() throws Exception {
-        AnimalRequestDTO criacaoDto = new AnimalRequestDTO("Thor", "CACHORRO", 24, "DISPONIVEL");
+        AnimalRequestDTO criacaoDto = new AnimalRequestDTO("Bolinha", "GATO", 5, "DISPONIVEL", null);
         String responseJson = mockMvc.perform(post("/api/animais")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(criacaoDto)))

@@ -34,7 +34,7 @@ class AdocaoControllerTest {
     @DisplayName("Deve aprovar uma adoção e atualizar o status do animal para ADOTADO automaticamente")
     @WithMockUser(roles = {"ADMIN", "USER"})
     void deveRegistrarAprovacaoEAtualizarAnimal() throws Exception {
-        AnimalRequestDTO animalDto = new AnimalRequestDTO("Bolinha", "GATO", 5, "DISPONIVEL");
+        AnimalRequestDTO animalDto = new AnimalRequestDTO("Bolinha", "GATO", 5, "DISPONIVEL", null);
         String animalResponse = mockMvc.perform(post("/api/animais")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(animalDto)))
