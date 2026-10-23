@@ -19,5 +19,8 @@ public record AnimalRequestDTO(
 
         @Schema(description = "Status atual de adoção", example = "DISPONIVEL")
         @NotBlank(message = "O status é obrigatório")
-        String status
+        String status,
+
+        @Schema(description = "URL da foto salva no Supabase Storage", example = "https://...")
+        String fotoUrl
 ) {}
