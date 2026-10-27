@@ -48,4 +48,14 @@ public class AdocaoController {
     public ResponseEntity<List<AdocaoResponseDTO>> listarPorAnimal(@PathVariable UUID animalId) {
         return ResponseEntity.ok(service.listarPorAnimal(animalId));
     }
+
+    @Operation(summary = "Consultar Todas as Adoções", description = "Lista todo o histórico de tentativas de adoção de todos os animais.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listagem retornada com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Acesso negado (Token inválido ou ausente)", content = @Content)
+    })
+    @GetMapping
+    public ResponseEntity<List<AdocaoResponseDTO>> listarTodos() {
+        return ResponseEntity.ok(service.listarTodos());
+    }
 }
