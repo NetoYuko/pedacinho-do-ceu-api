@@ -48,4 +48,26 @@ public class AdocaoController {
     public ResponseEntity<List<AdocaoResponseDTO>> listarPorAnimal(@PathVariable UUID animalId) {
         return ResponseEntity.ok(service.listarPorAnimal(animalId));
     }
+
+    @Operation(summary = "Consultar Todas as Adoções", description = "Lista todo o histórico de tentativas de adoção de todos os animais.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listagem retornada com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Acesso negado (Token inválido ou ausente)", content = @Content)
+    })
+    @GetMapping
+    public ResponseEntity<List<AdocaoResponseDTO>> listarTodos() {
+        return ResponseEntity.ok(service.listarTodos());
+    }
+
+    @Operation(summary = "Atualizar Status do Processo de Adoção", description = "Atualiza o status de um processo de adoção existente. Se o status for alterado para APROVADO, o animal é automaticamente marcado como ADOTADO.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Processo atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro de validação nos dados enviados", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso negado", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Processo não encontrado", content = @Content)
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<AdocaoResponseDTO> atualizarStatus(@PathVariable UUID id, @RequestBody @Valid AdocaoRequestDTO dto) {
+        return ResponseEntity.ok(service.atualizarStatus(id, dto));
+    }
 }

@@ -57,4 +57,30 @@ public class AdocaoService {
                 .map(AdocaoResponseDTO::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public List<AdocaoResponseDTO> listarTodos() {
+        return adocaoRepository.findAll().stream()
+                .map(AdocaoResponseDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public AdocaoResponseDTO atualizarStatus(UUID id, AdocaoRequestDTO dto) {
+        Adocao adocao = adocaoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Processo de adoção não encontrado."));
+
+        adocao.setStatus(dto.status().toUpperCase());
+
+        if ("APROVADO".equals(adocao.getStatus())) {
+            Animal animal = adocao.getAnimal();
+            animal.setStatus("ADOTADO");
+            adocao.setDataConclusao(LocalDate.now());
+
+            animalRepository.save(animal);
+        }
+
+        Adocao adocaoAtualizada = adocaoRepository.save(adocao);
+        return new AdocaoResponseDTO(adocaoAtualizada);
+    }
 }
