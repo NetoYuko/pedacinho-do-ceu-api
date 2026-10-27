@@ -71,4 +71,13 @@ class AdocaoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
     }
+
+    @Test
+    @DisplayName("Deve listar todas as adoções com sucesso")
+    @WithMockUser(roles = "USER")
+    void deveListarTodasAdocoes() throws Exception {
+        mockMvc.perform(get("/api/adocoes"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+    }
 }
