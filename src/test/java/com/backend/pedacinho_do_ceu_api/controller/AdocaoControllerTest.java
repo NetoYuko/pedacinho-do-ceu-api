@@ -80,4 +80,44 @@ class AdocaoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
     }
+
+    @Test
+    @DisplayName("Deve atualizar uma adoção existente para APROVADO e atualizar o animal (Permissão ADMIN)")
+    @WithMockUser(roles = {"ADMIN", "USER"})
+    void deveAtualizarAdocaoEAtualizarAnimal() throws Exception {
+        AnimalRequestDTO animalDto = new AnimalRequestDTO("Rex", "CACHORRO", 3, "DISPONIVEL", null);
+        String animalResponse = mockMvc.perform(post("/api/animais")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(animalDto)))
+                .andReturn().getResponse().getContentAsString();
+        String animalIdStr = objectMapper.readTree(animalResponse).get("id").asText();
+        UUID animalId = UUID.fromString(animalIdStr);
+
+        TutorRequestDTO tutorDto = new TutorRequestDTO("Carlos", "111.000.222-33", "(11) 90000-0000", "Rua Nova, 12");
+        String tutorResponse = mockMvc.perform(post("/api/tutores")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(tutorDto)))
+                .andReturn().getResponse().getContentAsString();
+        String tutorIdStr = objectMapper.readTree(tutorResponse).get("id").asText();
+        UUID tutorId = UUID.fromString(tutorIdStr);
+
+        AdocaoRequestDTO adocaoCriacaoDto = new AdocaoRequestDTO(animalId, tutorId, "ANALISE");
+        String adocaoResponse = mockMvc.perform(post("/api/adocoes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(adocaoCriacaoDto)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        String adocaoIdStr = objectMapper.readTree(adocaoResponse).get("id").asText();
+
+        AdocaoRequestDTO adocaoAtualizacaoDto = new AdocaoRequestDTO(animalId, tutorId, "APROVADO");
+        mockMvc.perform(put("/api/adocoes/" + adocaoIdStr)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(adocaoAtualizacaoDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("APROVADO"));
+
+        mockMvc.perform(get("/api/animais"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.id == '" + animalIdStr + "')].status").value("ADOTADO"));
+    }
 }
