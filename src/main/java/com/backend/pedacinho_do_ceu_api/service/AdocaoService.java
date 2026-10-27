@@ -57,4 +57,11 @@ public class AdocaoService {
                 .map(AdocaoResponseDTO::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public List<AdocaoResponseDTO> listarTodos() {
+        return adocaoRepository.findAll().stream()
+                .map(AdocaoResponseDTO::new)
+                .collect(Collectors.toList());
+    }
 }
