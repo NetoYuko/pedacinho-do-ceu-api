@@ -47,4 +47,10 @@ public class ProntuarioMedicamentoService {
                 .map(ProntuarioResponseDTO::new)
                 .collect(Collectors.toList());
     }
+
+    public List<ProntuarioResponseDTO> listarTodos() {
+        return prontuarioRepository.findAll().stream()
+                .map(ProntuarioResponseDTO::new)
+                .collect(Collectors.toList());
+    }
 }

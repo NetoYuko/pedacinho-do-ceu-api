@@ -48,4 +48,14 @@ public class ProntuarioMedicamentoController {
     public ResponseEntity<List<ProntuarioResponseDTO>> listarPorAnimal(@PathVariable UUID animalId) {
         return ResponseEntity.ok(service.listarPorAnimal(animalId));
     }
+
+    @Operation(summary = "Listar Todos os Prontuários", description = "Retorna a listagem completa de todos os medicamentos e vacinas aplicados em todos os animais da ONG.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listagem retornada com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Acesso negado (Token ausente ou inválido)", content = @Content)
+    })
+    @GetMapping
+    public ResponseEntity<List<ProntuarioResponseDTO>> listarTodos() {
+        return ResponseEntity.ok(service.listarTodos());
+    }
 }
