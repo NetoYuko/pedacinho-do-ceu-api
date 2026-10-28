@@ -69,4 +69,13 @@ class ProntuarioMedicamentoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
     }
+
+    @Test
+    @DisplayName("Deve consultar a listagem geral de prontuários com sucesso")
+    @WithMockUser(roles = "USER")
+    void deveListarTodosOsProntuarios() throws Exception {
+        mockMvc.perform(get("/api/prontuarios"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+    }
 }
